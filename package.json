@@ -6,6 +6,7 @@
     "apps/*"
   ],
   "scripts": {
+    "start": "next build apps/web && next start apps/web",
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint"
