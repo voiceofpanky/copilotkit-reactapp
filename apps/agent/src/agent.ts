@@ -9,7 +9,9 @@ import { tool } from "@langchain/core/tools";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import { AIMessage, SystemMessage } from "@langchain/core/messages";
 import { MemorySaver, START, StateGraph } from "@langchain/langgraph";
-import { ChatOpenAI } from "@langchain/openai";
+//import { ChatOpenAI } from "@langchain/openai";
+import { ChatOllama } from "@langchain/ollama"
+
 import {
   convertActionsToDynamicStructuredTools,
   CopilotKitStateAnnotation,
@@ -46,7 +48,16 @@ const tools = [getWeather];
 // 5. Define the chat node, which will handle the chat logic
 async function chat_node(state: AgentState, config: RunnableConfig) {
   // 5.1 Define the model, lower temperature for deterministic responses
-  const model = new ChatOpenAI({ temperature: 0, model: "gpt-4o" });
+
+  //const model = new ChatOpenAI({ temperature: 0, model: "gpt-3.5-turbo" });
+const model = new ChatOllama({
+    model: "llama3",
+    temperature: 0,
+    //maxRetries: 2,
+    // other params...
+})
+
+  
 
   // 5.2 Bind the tools to the model, include CopilotKit actions. This allows
   //     the model to call tools that are defined in CopilotKit by the frontend.
